@@ -24,7 +24,7 @@ class WordList(set):
         # TODO - improve error handling. Left Strip text as well as right.
         # TODO - Maybe also check for non-alphabetic characters?
 
-    def __check_and_add(self, line):
+    def __check_and_add(self, line: str) -> None:
         mod_line = line.rstrip().lstrip().lower()
         if len(mod_line) == self.word_length:
             self.add(mod_line)

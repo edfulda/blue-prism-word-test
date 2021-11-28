@@ -2,7 +2,7 @@ from model.word_list import WordList
 
 
 class Word(str):
-    def __new__(cls, word):
+    def __new__(cls, word) -> str:
         return str.__new__(cls, word.lower())
 
     def validate_word(self, word_list: WordList) -> None:

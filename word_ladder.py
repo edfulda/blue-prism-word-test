@@ -12,7 +12,7 @@ class WordLadder(object):
         self.target = target
         self.word_list = word_list
 
-    def get_next_words(self, word: string):
+    def get_next_words(self, word: string) -> set[str]:
         next_words = set()
         for i in range(self.word_list.word_length):
             if word[i] == self.target[i]:

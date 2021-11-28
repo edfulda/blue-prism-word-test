@@ -28,7 +28,6 @@ class WordLadder(object):
 
     def calculate_route(self) -> list[str]:
         # to start we only need to generate routes from 1st word
-        self.graph[self.start] = self.get_next_words(self.start)
         q = deque([(self.start, [self.start])])
         # Visited will prevent us following a route twice - the second visit to a word is
         # guaranteed to be as long or longer than the shortest route

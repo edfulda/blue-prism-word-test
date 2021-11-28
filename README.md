@@ -3,7 +3,7 @@ Environment setup
 
 This has been tested with Python 3.7.11 and 3.9.7. Due to the use of type hinting, earlier versions will not work.
 
-The environment should only need two packages - and indeed these are only for the tests, the core code uses only built in libraries
+The environment should only need two packages - and indeed these are only for the tests, the core code uses only built in libraries. These dependencies (pytest and hypothesis) are documented in requirements.txt
 
 How To Run
 -----
@@ -24,11 +24,11 @@ python3 -m pytest
 Development Notes
 -----
 
-While we are told that we can assume that the words will both be found in the test pack, in the interests of defensive code we check anyway. As we are using sets this lookup is quick and cheap. In a similar vein we deal with all our words and word lists as lower case so that we don't have to sit and worry about whether we need to change case - and this conversion to lower case is handled when the words/word lists are created
+While we are told that we can assume that the words will both be found in the test pack, in the interests of defensive code we check anyway. As we are using sets this lookup is quick and cheap. In a similar vein we deal with all our words and word lists as lower case so that we don't have to worry about whether we need to change case - this conversion to lower case is handled when the words/word lists are created. An enhancement could be made to revert to the input case at the end if needed
 
 The search is implemented as breadth first - by using a BFS we can be certain that the first correct result is the shortest (or joint shortest). Due to using unordered sets in the code, if there are multiple results then we cannot guarantee returning the same one each time. An improvement here could be to allow returning ALL correct results (i.e. when we find the depth which contains one correct result, continue iterating until that depth is complete)
 
-The approach also takes advantage of sets and dictionaries having a cost to lookup of O(1). Given we will be reading from these lists (the word list and the graph) far more than writing to it (we will only write once) this will give a good performance benefit vs a list. We use this property to our advantage by taking a word, generating all it's possible word pairs, then looking to see if they exist. So for a 4 letter word we generate 25^4 possibilities and look them up in the word list to see if they exist.This is the worst case assuming all 4 letters change from start word to end word - if they don't such as in spin to spat then we only generate 25^2 possibilities
+The approach also takes advantage of sets and dictionaries having a cost to lookup of O(1). Given we will be reading from this data (the word list and the graph) far more than writing to it (we will only write once) this will give a good performance benefit vs a list. We use this property to our advantage by taking a word, generating all it's possible word pairs, then looking to see if they exist. So for a 4 letter word we generate 25^4 possibilities and look them up in the word list to see if they exist.This is the worst case assuming all 4 letters change from start word to end word - if they don't such as in spin to spat then we only generate 25^2 possibilities
 
 Test Notes
 -----

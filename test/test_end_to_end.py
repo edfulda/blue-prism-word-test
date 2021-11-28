@@ -1,3 +1,4 @@
+from hypothesis import assume, given, strategies as st
 from model.word_list import WordList
 from word_ladder_cli import main
 
@@ -27,3 +28,29 @@ def test_blue_prism_examples():
     assert len(results) == 5
     assert results[0] == "hide"
     assert results[-1] == "sort"
+
+
+@given(begin=st.text(min_size=4, max_size=4),
+       end=st.text(min_size=4, max_size=4),
+       words=st.sets(st.text()))
+def test_ht_length_four(begin, end, words):
+    # Ensure being and end strings in the word list
+    full_set = words.union(set([begin])).union(set([end]))
+    try:
+        wl = WordList(4, full_set)
+        main(wl, begin, end)
+    except ValueError as err:
+        assume("is not in the dictionary" in str(err))
+
+
+@given(begin=st.text(min_size=8, max_size=8),
+       end=st.text(min_size=8, max_size=8),
+       words=st.sets(st.text()))
+def test_ht_length_eight(begin, end, words):
+    # Ensure being and end strings in the word list
+    full_set = words.union(set([begin])).union(set([end]))
+    try:
+        wl = WordList(8, full_set)
+        main(wl, begin, end)
+    except ValueError as err:
+        assume("is not in the dictionary" in str(err))

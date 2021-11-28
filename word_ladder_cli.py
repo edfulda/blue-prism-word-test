@@ -2,11 +2,18 @@ import argparse
 import logging
 from model.word import Word
 from model.word_list import WordList
-from word_ladder import WordLadder
+from model.word_ladder import WordLadder
 
 
 logging.basicConfig(filename="word_ladder.log", format='%(asctime)s %(levelname)s: %(message)s',
                     level=logging.INFO)
+
+
+def check_positive(value: str) -> int:
+    ivalue = int(value)
+    if ivalue <= 0:
+        return argparse.ArgumentTypeError("%s is an invalid positive int value", value)
+    return ivalue
 
 
 def parse_args() -> tuple:
@@ -24,8 +31,8 @@ def parse_args() -> tuple:
         "ResultFile", type=str, help="File name to save the results to"
     )
     parser.add_argument(
-        "--word-length", type=int, help="Word Length to use - defaults to 4", default=4
-    )
+        "--word-length", type=check_positive,
+        help="Word Length to use - defaults to 4. Must be a positive int", default=4)
     args = parser.parse_args()
     logging.debug("Arguments: %s", args)
     return args.DictionaryFile, args.StartWord, args.EndWord, args.ResultFile, args.word_length
@@ -49,6 +56,12 @@ if __name__ == "__main__":
     logging.info("Word List Loaded")
     result_list = main(wlist, start_word, end_word)
     logging.info("Results calculated - %s", result_list)
+    if result_list:
+        output_message = "\n".join(result_list)
+    else:
+        logging.error("No Results found!")
+        output_message = f"No Results found from {start_word} to {end_word}"
+
     with open(result_file, "w", encoding='utf-8') as rf:
-        rf.write(str(result_list))
+        rf.write(output_message)
     logging.info("Results saved to %s", result_file)

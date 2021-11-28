@@ -1,6 +1,8 @@
+from __future__ import annotations
 import logging
 import string
 from collections import defaultdict, deque
+
 
 from model.word_list import WordList
 

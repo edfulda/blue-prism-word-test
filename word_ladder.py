@@ -3,8 +3,6 @@ from collections import defaultdict, deque
 
 from model.word_list import WordList
 
-WORD_LENGTH = 4
-
 
 class WordLadder(object):
     def __init__(self, start: str, target: str, word_list: WordList) -> None:
@@ -15,7 +13,7 @@ class WordLadder(object):
 
     def get_next_words(self, word: string):
         next_words = set()
-        for i in range(WORD_LENGTH):
+        for i in range(self.word_list.word_length):
             if word[i] == self.target[i]:
                 # Short circuit the loop when the letters already match target
                 # (i.e. if we have spin and spot, no point checking the path spin->shin)

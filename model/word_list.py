@@ -1,15 +1,25 @@
-WORD_LENGTH = 4
-
-
 class WordList(set):
+
+    def __init__(self, word_length: int, iterable=None) -> None:
+        self.word_length = word_length
+        if not iterable:
+            iterable = set()
+        else:
+            for i in iterable:
+                self.__check_and_add(i)
+
     def load_from_file(self, dictionary_file: str) -> set:
         """Pulls the correct words from a dictionary file into a set
 
-        Adds those of the correct length to a set of words, with whitespace stripped and in lower 
+        Adds those of the correct length to a set of words, with whitespace stripped and in lower
         case"""
-        with open(dictionary_file) as f:
+        with open(dictionary_file, encoding='utf-8') as f:
             for line in f:
-                if len(line.rstrip()) == WORD_LENGTH:
-                    self.add(line.rstrip().lower())
+                self.__check_and_add(line)
         # TODO - improve error handling. Left Strip text as well as right.
         # TODO - Maybe also check for non-alphabetic characters?
+
+    def __check_and_add(self, line):
+        mod_line = line.rstrip().lstrip().lower()
+        if len(mod_line) == self.word_length:
+            self.add(mod_line)

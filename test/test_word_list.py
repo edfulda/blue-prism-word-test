@@ -14,7 +14,7 @@ MiXy
     tmp = tmp_path / "tmpfile.txt"
     tmp.write_text(test_file_contents)
 
-    wl = WordList()
+    wl = WordList(4)
     wl.load_from_file(str(tmp))
     # Wordlist should be 6 words long
     assert len(wl) == 5
@@ -26,3 +26,8 @@ MiXy
 
     assert "MiXy" not in wl
     assert "mixy" in wl
+
+
+def test_non_four_word_list():
+    wl = WordList(6, {"four", "six", "seven", "eleven", "twelve"})
+    assert wl == {"eleven", "twelve"}

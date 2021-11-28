@@ -1,7 +1,14 @@
 import argparse
+import logging
 from model.word import Word
 from model.word_list import WordList
 from word_ladder import WordLadder
+
+
+logging.basicConfig(
+    filename="word_ladder.log", format='%(asctime)s %(levelname)s: %(message)s',
+    level=logging.DEBUG)
+logging.debug("Starting Word Ladder App")
 
 
 def parse_args() -> tuple:
@@ -18,8 +25,11 @@ def parse_args() -> tuple:
     parser.add_argument(
         "ResultFile", type=str, help="File name to save the results to"
     )
+    parser.add_argument(
+        "--word-length", type=int, help="Word Length to use - defaults to 4", default=4
+    )
     args = parser.parse_args()
-    return args.DictionaryFile, args.StartWord, args.EndWord, args.ResultFile
+    return args.DictionaryFile, args.StartWord, args.EndWord, args.ResultFile, args.word_length
 
 
 def main(word_list: WordList, start: str, end: str) -> list:
@@ -33,8 +43,8 @@ def main(word_list: WordList, start: str, end: str) -> list:
 
 
 if __name__ == "__main__":
-    dictionary_file, start_word, end_word, result_file = parse_args()
-    wlist = WordList()
+    dictionary_file, start_word, end_word, result_file, word_length = parse_args()
+    wlist = WordList(word_length=word_length)
     wlist.load_from_file(dictionary_file)
 
     result_list = main(wlist, start_word, end_word)

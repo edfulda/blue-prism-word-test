@@ -19,3 +19,4 @@ Reference materials:
 - Python docs 
 - Pytest docs (particularly for tmp_path - https://docs.pytest.org/en/6.2.x/tmpdir.html)
 - Various helpful people on stackoverflow - e.g. https://stackoverflow.com/questions/7255655/how-to-subclass-str-in-python, 
+- Some examples of other word ladder apps - e.g. https://www.programcreek.com/2012/12/leetcode-word-ladder/

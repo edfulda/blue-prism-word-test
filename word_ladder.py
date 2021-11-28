@@ -1,3 +1,4 @@
+import logging
 import string
 from collections import defaultdict, deque
 
@@ -34,12 +35,17 @@ class WordLadder(object):
         visited = (set())
         while q:
             word, journey = q.popleft()
-            if word == self.target:
-                return journey
+            logging.debug("Calculating route from %s", word)
             if word not in visited:
                 visited.add(word)
                 self.graph[word] = self.get_next_words(word)
+                logging.debug("Got next words for %s", word)
                 for nxt in self.graph[word]:
                     if nxt not in visited:
                         q.append((nxt, journey + [nxt]))
+                        if nxt == self.target:
+                            logging.info(
+                                "At target - exiting loop. Number of steps = %s. Number of Visits %r",
+                                len(journey) + 1, len(visited))
+                            return(journey + [nxt])
         return []  # no results found
